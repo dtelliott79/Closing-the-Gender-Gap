@@ -1,0 +1,42 @@
+---
+title: "Week 3 Project"
+author: "David Elliott"
+date: "December 28, 2016"
+output: html_document
+---
+## Closing the Gender Gap?
+Shown are the annual average (1948-2016) unemployment rates for men and women, as reported by the US Bureau of Labor Statistics. Note that the 2016 average does not include the month of December.
+
+```{r options}
+knitr::opts_chunk$set(echo = TRUE, warning=FALSE, message=FALSE)
+```
+
+```{r map}
+library(htmltab)
+data <- read.csv("book1.csv", header=TRUE)
+data$Ann <- rowMeans(data[,2:13], na.rm = TRUE)
+sexdata <- subset(data, Sex != "All")
+
+library(plotly)
+plot_ly(x = sexdata$Year, y = sexdata$Ann, color = sexdata$Sex, mode = 'lines') %>% layout(title = "Annual Average US Unemployment Rate",
+         xaxis = list(title = "Year"),
+         yaxis = list (title = "Unemployment Rate (%)"))
+```
+
+#### CREDIT: Data queried from US Bureau of Labor Statistics, https://data.bls.gov/cgi-bin/surveymost?ln
+
+Original Series Downloaded were 1948-2016 (November):
+
+* Unemployment Rate - 16-19 Years - LNS14000012
+
+* Unemployment Rate - 20 Years & Over Men - LNS14000025
+
+* Unemployment Rate - 20 Years & Over Women - LNS14000026
+
+* Unemployment Rate - White - LNS14000003
+
+* Unemployment Rate - Black or African American - LNS14000006
+
+* Unemployment Rate - Asian - LNS14032183
+
+* Unemployment Rate - Hispanic or Latino - LNS14000009
